@@ -255,6 +255,7 @@ void activeBreak(){
   delay(600);
   }
 
+//***************************** rotate *****************************
 void rotate(int motorSpeedRight, int motorSpeedLeft){
   if (obstacle()){
         analogWrite(enableRight,motorSpeedRight);
@@ -271,6 +272,7 @@ void rotate(int motorSpeedRight, int motorSpeedLeft){
         
   }
 
+//***************************** reverse *****************************
 void reverse(int motorSpeedRight, int motorSpeedLeft){
         analogWrite(enableRight,motorSpeedRight);
         analogWrite(enableLeft,motorSpeedLeft);
@@ -280,6 +282,7 @@ void reverse(int motorSpeedRight, int motorSpeedLeft){
         digitalWrite(inLeft2,HIGH);
   }
 
+//******************************* obstacal avoiding ************************************
 bool obstacle(){
       digitalWrite(trigger,1);
       delayMicroseconds (10);
