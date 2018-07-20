@@ -59,9 +59,9 @@ void setup() {
   delay(1000);
 
 }
-//char* directionArray[] = {"F","S", "F", "B", "F","L", "F", "L", "F", "L", "F", "R", "F", "B", "F", "L", "F", "R", "F", "R", "F", "L", "F"};
-//char* directionArray[] = {"F", "R", "F", "L", "F", "L", "F", "R", "F" , "B" , "F", "L", "R", "F", "R", "L", "F"};
+
 char* directionArray[] = {"F", "R", "F", "S", "F", "S", "F", "L", "F","R","F","L","F","B"};
+
 //************************ void loop() **********************************
 void loop() {
 for (int i = 0; i <= sizeof(directionArray) - 1; i++){
@@ -94,4 +94,6 @@ for (int i = 0; i <= sizeof(directionArray) - 1; i++){
       delay(60000);//wait at the table for 10s
       }
   }
+  turnBack();
+  reverse(motorSpeedLeft,motorSpeedRight);
 }
