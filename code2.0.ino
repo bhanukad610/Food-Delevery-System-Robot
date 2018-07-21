@@ -41,6 +41,9 @@ int echo = 38;
 #define KD 4
 int lastError = 0;
 
+//********************* indicating LED ********************
+#define pinLED 30
+
 //************************************* void setup() *****************************************
 void setup() {
   //******************* motors ***********************
@@ -58,42 +61,61 @@ void setup() {
   Serial.begin(9600); // set the data rate in bits per second for serial data transmission
   delay(1000);
 
+  //****************** indicating LED *************
+  pinMode(pinLED,OUTPUT);
 }
 
-char* directionArray[] = {"F", "R", "F", "S", "F", "S", "F", "L", "F","R","F","L","F","B"};
-
+//char* directionArray[] = {"F", "R", "F", "S", "F", "S", "F", "L", "F","R","F","L","F","B"};
+String recievedData;
 //************************ void loop() **********************************
 void loop() {
-for (int i = 0; i <= sizeof(directionArray) - 1; i++){
-  Serial.println("for loop");
-  Serial.println(directionArray[i]);
-  if (directionArray[i] == "F"){
-      Serial.println("forward");
-      forward();
-      }
-   if (directionArray[i] == "S"){
-      Serial.println("Skip");
-      skip();
-      }
-   if (directionArray[i] == "B"){
-      Serial.println("Turn back");
-      turnBack();
-      }
-    if (directionArray[i] == "L"){
-      Serial.println("Turn left and go forward");
-      turnLeft();
-      forward();
-      }
-    if (directionArray[i] == "R"){
-      Serial.println("Turn right and go forward");
-      turnRight();
-      forward();
-      }
-    if (directionArray[i] == "W"){
-      Serial.println("Wait");
-      delay(60000);//wait at the table for 10s
-      }
-  }
-  turnBack();
-  reverse(motorSpeedLeft,motorSpeedRight);
+  Serial.println("Getting data");
+  recievedData = Serial.readString(); //Read the serial data and store in variable called "recdata"
+  Serial.println(recievedData);
+  int stringLength = recievedData.length()+1;
+  char directionArray[stringLength];
+  recievedData.toCharArray(directionArray,stringLength);
+  if(recievedData != ""){
+                digitalWrite(pinLED, HIGH);
+                Serial.println("successfully got data");
+                for (int i = 0; i <= sizeof(directionArray) - 1; i++){
+                  Serial.println("for loop");
+                  Serial.println(directionArray[i]);
+                  if (directionArray[i] == "F"){
+                      Serial.println("forward");
+                      forward();
+                      }
+                   if (directionArray[i] == "S"){
+                      Serial.println("Skip");
+                      skip();
+                      }
+                   if (directionArray[i] == "B"){
+                      Serial.println("Turn back");
+                      turnBack();
+                      }
+                    if (directionArray[i] == "L"){
+                      Serial.println("Turn left and go forward");
+                      turnLeft();
+                      forward();
+                      }
+                    if (directionArray[i] == "R"){
+                      Serial.println("Turn right and go forward");
+                      turnRight();
+                      forward();
+                      }
+                    if (directionArray[i] == "W"){
+                      Serial.println("Wait");
+                      delay(60000);//wait at the table for 10s
+                      }
+              }
+              turnBack();
+              reverse(motorSpeedLeft,motorSpeedRight);
+              }
+              else{
+                  ;
+                  digitalWrite(pinLED, LOW);
+                  }
+                recievedData = "";
+                delay(1000);
+  
 }
